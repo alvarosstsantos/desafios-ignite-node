@@ -1,0 +1,275 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+        "title": "User-Record Documentation",
+        "version":"1.0.0",
+        "contact":{
+            "email":"alvarosstsantos@gmail.com"
+        }
+    },
+    "paths":{
+        "/users":{
+            "post":{
+                "tags":["users"],
+                "summary":"create a new user",
+                "description":"create a new user",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "email":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "name":"user name sample",
+                                    "email":"useremailsample@mail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"created",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/definitions/User"
+                                    }
+                                }
+                            }
+                    },
+                    "400":{
+                        "description":"email already taken",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties":{
+                                            "error":{
+                                                "type":"string"
+                                            }
+                                       },
+                                       "example":{
+                                            "error": "email already taken"
+                                       }
+                                    }
+                                }
+                            }
+                    }
+                }
+
+            },
+            "get":{
+                "tags":["users"],
+                "summary":"list all users",
+                "description":"list all users, only for **admin**",
+                "parameters":[{
+                    "name":"user_id",
+                    "in":"header",
+                    "required":true,
+                    "schema":{
+                        "type":"string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"success",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type":"array",
+                                        "items":{
+                                            "type":"object",
+                                            "$ref":"#/definitions/User"
+                                        }
+                                    }
+                                }
+                            }
+                    },
+                    "400":{
+                        "description":"user doesnt have permission",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties":{
+                                            "error":{
+                                                "type":"string"
+                                            }
+                                       },
+                                       "example":{
+                                            "error": "user doesnt have permission"
+                                       }
+                                    }
+                                }
+                            }
+                    }
+                }
+
+            }
+        },
+        "/users/{user_id}":{
+            "get":{
+                "tags":["users"],
+                "summary": "return specific a user",
+                "description":"return all information from specific a user",
+                "parameters":[
+                    {
+                        "name":"user_id",
+                        "in":"path",
+                        "required":true,
+                        "description":"user uuid",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"user does not exists",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties":{
+                                            "error":{
+                                                "type":"string"
+                                            }
+                                       },
+                                       "example":{
+                                            "error": "user does not exists"
+                                       }
+                                    }
+                                }
+                            }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch":{
+                "tags":["users"],
+                "summary": "changes user admin status",
+                "description":"turn specific user into admin",
+                "parameters":[
+                    {
+                        "name":"user_id",
+                        "in":"path",
+                        "required":true,
+                        "description":"user uuid",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "admin":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "id":{
+                                            "type":"string",
+                                            "example":"5f6d77ff-9a54-4d7d-a876-94dc3d12f21f"
+                                        },
+                                        "name":{
+                                            "type":"string",
+                                            "example":"user name sample"
+                                        },
+                                        "email":{
+                                            "type":"string",
+                                            "example":"useremailsample@mail.com"
+                                        },
+                                        "created_at":{
+                                            "type":"dateString",
+                                            "example":"2021-03-16T17:59:37.284Z"
+                                        },
+                                        "updated_at":{
+                                            "type":"dateString",
+                                            "example":"2021-03-16T17:59:37.284Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"user does not exists",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties":{
+                                            "error":{
+                                                "type":"string"
+                                            }
+                                       },
+                                       "example":{
+                                            "error": "user does not exists"
+                                       }
+                                    }
+                                }
+                            }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User":{
+            "type": "object",
+            "properties":{
+                "admin":{
+                    "type":"boolean",
+                    "example":false
+                },
+                "id":{
+                    "type":"string",
+                    "example":"5f6d77ff-9a54-4d7d-a876-94dc3d12f21f"
+                },
+                "name":{
+                    "type":"string",
+                    "example":"user name sample"
+                },
+                "email":{
+                    "type":"string",
+                    "example":"useremailsample@mail.com"
+                },
+                "created_at":{
+                    "type":"dateString",
+                    "example":"2021-03-16T17:59:37.284Z"
+                },
+                "updated_at":{
+                    "type":"dateString",
+                    "example":"2021-03-16T17:59:37.284Z"
+                }
+            },
+            "xml":{
+                "name":"User"
+            }
+        }
+    }
+}
