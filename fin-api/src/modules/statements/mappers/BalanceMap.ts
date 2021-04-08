@@ -8,17 +8,26 @@ export class BalanceMap {
       description,
       type,
       created_at,
-      updated_at
-    }) => (
+      updated_at,
+      sender_id
+    }) => ( sender_id ?
       {
         id,
         amount: Number(amount),
         description,
         type,
         created_at,
-        updated_at
+        updated_at,
+        sender_id
+      } :       {
+        id,
+        amount: Number(amount),
+        description,
+        type,
+        created_at,
+        updated_at,
       }
-    ));
+    ))
 
     return {
       statement: parsedStatement,

@@ -1,6 +1,6 @@
 {
   "username": "postgres",
-  "password": "",
+  "password": "rtl8192",
 
   "name": "default",
   "type": "postgres",

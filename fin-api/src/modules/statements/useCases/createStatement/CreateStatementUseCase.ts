@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 import { IUsersRepository } from "../../../users/repositories/IUsersRepository";
 import { IStatementsRepository } from "../../repositories/IStatementsRepository";
 import { CreateStatementError } from "./CreateStatementError";
-import { ICreateStatementDTO } from "./ICreateStatementDTO";
+import { ICreateStatementDTO } from "../../dtos/ICreateStatementDTO";
 
 @injectable()
 export class CreateStatementUseCase {
@@ -34,7 +34,7 @@ export class CreateStatementUseCase {
       user_id,
       type,
       amount,
-      description
+      description,
     });
 
     return statementOperation;

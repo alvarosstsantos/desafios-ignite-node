@@ -2,7 +2,7 @@ import { InMemoryStatementsRepository } from "../../repositories/in-memory/InMem
 import { InMemoryUsersRepository } from "../../../users/repositories/in-memory/InMemoryUsersRepository"
 import { CreateUserUseCase } from "../../../users/useCases/createUser/CreateUserUseCase"
 import { CreateStatementUseCase } from "./CreateStatementUseCase"
-import { ICreateStatementDTO } from "./ICreateStatementDTO"
+import { ICreateStatementDTO } from "../../dtos/ICreateStatementDTO"
 import { CreateStatementError } from "./CreateStatementError";
 
 
@@ -10,6 +10,7 @@ import { CreateStatementError } from "./CreateStatementError";
 enum OperationType {
     DEPOSIT = 'deposit',
     WITHDRAW = 'withdraw',
+    TRANSFER = 'transfer'
   }
 
 describe("Create Statement", ()=> {
