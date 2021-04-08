@@ -10,8 +10,8 @@ export class BalanceMap {
       created_at,
       updated_at,
       sender_id
-    }) => ( sender_id ?
-      {
+    }) =>
+      ({
         id,
         amount: Number(amount),
         description,
@@ -19,18 +19,17 @@ export class BalanceMap {
         created_at,
         updated_at,
         sender_id
-      } :       {
-        id,
-        amount: Number(amount),
-        description,
-        type,
-        created_at,
-        updated_at,
-      }
+      })
+    )
+
+    const statementWithoutNullProperties = parsedStatement.map((statement) => (
+      Object.keys(statement)
+            .filter((key) => statement[key] != null)
+            .reduce((acc, key) => ({ ...acc, [key]: statement[key] }), {})
     ))
 
     return {
-      statement: parsedStatement,
+      statement: statementWithoutNullProperties,
       balance: Number(balance)
     }
   }
